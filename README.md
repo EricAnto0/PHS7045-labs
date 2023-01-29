@@ -123,8 +123,8 @@ my_e(123, pi)
      num 3.14
     Null data.table (0 rows and 0 cols)
     Null data.table (0 rows and 0 cols)
-    [1] "0000025315583a40"
-    [1] "0000025312a06680"
+    [1] "0000027ae2393c10"
+    [1] "0000027adf82b2c8"
 
 Knit the document, commit your changes, and push them to GitHub.
 
@@ -134,6 +134,15 @@ A concept we did not review was lazy evaluation. Write a function with
 two arguments (`a` and `b`) that only uses one of them as an integer,
 and then call the function passing the following arguments
 `(1, this_stuff)`
+
+``` r
+lazyloadfun <- function(x, y){
+  print(x)
+}
+lazyloadfun(1, this_stuff)
+```
+
+    [1] 1
 
 Knit the document, commit your changes, and push them to GitHub.
 
