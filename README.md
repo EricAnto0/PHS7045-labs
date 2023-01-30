@@ -123,8 +123,8 @@ my_e(123, pi)
      num 3.14
     Null data.table (0 rows and 0 cols)
     Null data.table (0 rows and 0 cols)
-    [1] "0000027ae2393c10"
-    [1] "0000027adf82b2c8"
+    [1] "0000026568699370"
+    [1] "0000026565b867d8"
 
 Knit the document, commit your changes, and push them to GitHub.
 
@@ -136,10 +136,10 @@ and then call the function passing the following arguments
 `(1, this_stuff)`
 
 ``` r
-lazyloadfun <- function(x, y){
+lazy_eval <- function(x, y){
   print(x)
 }
-lazyloadfun(1, this_stuff)
+lazy_eval(1, this_stuff)
 ```
 
     [1] 1
@@ -151,6 +151,20 @@ Knit the document, commit your changes, and push them to GitHub.
 Write a function that fits a linear regression model and saves the
 result to the global environment using the `assign()` function. The name
 of the output must be passed as a symbol using lazy evaluation.
+
+``` r
+lreg <- function(x, y, ...){
+ innerf <- list(...)
+  function(x, y) assign(innerf, lm(y ~ x), envir = .GlobalEnv)
+ #ls(environment(innerf))
+}
+x <- rnorm(100)
+y <- rbinom(100, 1, 0.5)
+lreg(x, y)  
+```
+
+    function(x, y) assign(innerf, lm(y ~ x), envir = .GlobalEnv)
+    <environment: 0x0000026568dd02d0>
 
 Knit the document, commit your changes, and push them to GitHub.
 
@@ -169,6 +183,7 @@ Knit the document, commit your changes, and push them to GitHub.
 ``` r
 # Download the data
 stations <- fread("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv")
+metdata <- fread("https://raw.githubusercontent.com/USCbiostats/data-science-data/master/02_met/met_all.gz")
 stations[, USAF := as.integer(USAF)]
 
 # Dealing with NAs and 999999
@@ -185,6 +200,19 @@ stations <- stations[!is.na(USAF)]
 # Removing duplicates
 stations[, n := 1:.N, by = .(USAF)]
 stations <- stations[n == 1,][, n := NULL]
+
+dat <- merge(
+  # Data
+  x     = metdata,      
+  y     = stations, 
+  # List of variables to match
+  by.x  = "USAFID",
+  by.y  = "USAF", 
+  # Which obs to keep?
+  all.x = TRUE,      
+  all.y = FALSE
+  )
+dim(dat)
 ```
 
 3.  Merge the data as we did during the lecture.
