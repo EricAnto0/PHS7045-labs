@@ -44,7 +44,7 @@ Notation and criteria for study to successfully declare a treatment as
 efficacious:
 
 - $i = 1, \dots, N$ participants
-- $t = 0, 1, 2, 3$ study arms ($t = 0$ is control)
+- $t = 0, 1, 2, 3$ study arms (t = 0 is control)
 - $Y_i \mid t \sim Bern(p_t)$ and $y_t$ is a vector of $n_t$ observed
   outcomes on arm $t$
 - The prior on $p_t \sim Beta(\alpha_t, \beta_t)$
