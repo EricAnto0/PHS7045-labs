@@ -45,18 +45,18 @@ efficacious:
 
 - $i = 1, \dots, N$ participants
 - $t = 0, 1, 2, 3$ study arms ($t = 0$ is control)
-- $Y_i \mid t \sim$ Bern($p_t$) and $y_t$ is a vector of $n_t$ observed
+- $Y_i \mid t \sim Bern(p_t)$ and $y_t$ is a vector of $n_t$ observed
   outcomes on arm $t$
-- The prior on $p_t \sim$ Beta($\alpha_t, \beta_t$)
+- The prior on $p_t \sim Beta(\alpha_t, \beta_t)$
 
-Posterior Distribution Pr($p_t$ \| $y_t$) $\sim$
-Beta($\alpha_t + \sum y_t, \beta_t + n_t - \sum y_t$)
+Posterior Distribution
+$Pr(p_t | y_t) \sim Beta(\alpha_t + \sum y_t, \beta_t + n_t - \sum y_t)$
 
 Quoting from the paper: The trial is considered successful at the final
 analysis if there is a high posterior probability that at least one arm
 has a higher rate than control.
 
-max$_t$ Pr( $p_t > p_0$ ) \> $\delta$
+$\text{max}_t Pr( p_t > p_0 ) > \delta$
 
 where $\delta$ is a threshold chosen to maintain familywise type I error
 for the study at one-sided 2.5%.
