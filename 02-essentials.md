@@ -169,15 +169,15 @@ mymodel(threshold = .9912, N = 228, K = 1000, design = 2,
         alpha_t =.35, beta_t = .65)
 ```
 
-    [[1]]
-    [1] "The probability that the best treatment arm 3 is better than control is 0.507"
+    Warning in split.default(sample(nrow(dat), n0), trt): data length is not a
+    multiple of split variable
 
-    [[2]]
-    [1] "Trial was not successsful"
+\[\[1\]\] \[1\] “The probability that the best treatment arm 3 is better
+than control is 0.507”
 
-    [[3]]
-    Control 1     Arm 1     Arm 3     Arm 4 
-           63        34        64        67 
+\[\[2\]\] \[1\] “Trial was not successsful”
+
+\[\[3\]\] Control 1 Arm 1 Arm 3 Arm 4 63 34 64 67
 
 ``` r
 bench::mark(mymodel(threshold = .9912, N = 228, K = 1000, design = 2,
