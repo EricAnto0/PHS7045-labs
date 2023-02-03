@@ -241,9 +241,11 @@ bench::mark(mymodel(threshold = .9912, N = 228, K = 1000, design = 2,
     Warning in split.default(sample(nrow(dat), n0), trt): data length is not a
     multiple of split variable
 
-    # A tibble: 1 × 4
-    # … with 4 more variables: expression <bch:expr>, min <bch:tm>,
-    #   median <bch:tm>, `itr/sec` <dbl>
+# A tibble: 1 × 4
+
+# … with 4 more variables: expression <bch:expr>, min <bch:tm>,
+
+# median <bch:tm>, `itr/sec` <dbl>
 
 # If you have more time
 
