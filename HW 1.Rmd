@@ -1,0 +1,390 @@
+---
+title: "**ANALYTIC EXERCISE**"
+output:
+  pdf_document:
+    #number_sections: TRUE
+    fig_caption: yes
+    keep_tex: yes
+    latex_engine: xelatex
+    #number_sections: yes
+    #toc: yes
+    #toc_depth: 4
+  word_document:
+    toc: yes
+    toc_depth: '4'
+  html_document:
+    toc: yes
+    toc_depth: '4'
+    df_print: paged
+#geometry: "left = 2.5cm, right = 2cm, top = 2cm, bottom = 2cm"
+#fontsize: 11pt
+header-includes:
+  - \usepackage{float}
+  - \usepackage{sectsty}
+  - \usepackage{paralist}
+  - \usepackage{fancyhdr}
+  - \usepackage{lastpage}
+  - \usepackage{dcolumn}
+  - \usepackage{natbib}\bibliographystyle{agsm}
+  - \usepackage[nottoc, numbib]{tocbibind}
+  - \usepackage{setspace}
+  - \usepackage{xcolor}
+  - \doublespacing
+  - \usepackage{bbm}
+  - \usepackage{mathtools}
+  - \usepackage{bm}
+  - \usepackage{tabularx}
+  - \usepackage{array}
+  - \usepackage{booktabs}
+  - \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+  - \usepackage{physics}
+  - \newcommand*{\B}[1]{\ifmmode\bm{#1}\else\textbf{#1}\fi}
+  - \usepackage{amsmath}
+  - \usepackage{amssymb}
+  - \usepackage{amsfonts}
+  - \usepackage{amsthm}
+  - \newcommand{\indep}{\perp \!\!\! \perp}
+  - \usepackage{fancyhdr}
+  - \usepackage{xcolor}
+  - \usepackage{unicode-math}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \rhead{ECON 7800}
+  - \lhead{Problem Set 1}
+  - \cfoot{\thepage}
+  - \usepackage{algorithm}
+  - \usepackage[noend]{algpseudocode}
+  - \DeclareMathOperator{\E}{\mathbb{E}}
+  - \DeclareMathOperator{\N}{\mathbb{N}}
+  - \DeclareMathOperator{\Lagr}{\mathcal{L}}
+  - \def\R{\mbox{\rlap{I}\hskip .03in R}}
+  - \newcommand{\diag}{\mbox{diag}}
+  - \newcommand{\bfSigma}{\mbox{\boldmath $\Sigma$}}
+geometry: margin = 1in
+fontsize: 12pt  
+#bibliography: bibliography.bib
+---
+
+# ------------------------------------------------------------------------
+\allsectionsfont{\centering}
+\subsectionfont{\raggedright}
+\subsubsectionfont{\raggedright}
+
+\pagenumbering{gobble}
+
+\begin{centering}
+
+\vspace{0.7cm}
+
+```{r setup, include=FALSE, echo=FALSE}
+#work.dir = "C:/Users/Admin/Documents/Secondary Data Analysis/Data files/"
+```
+
+```{r uni_logo, echo=F, out.width = "65%", fig.align = "center"}
+#knitr::include_graphics(file.path(work.dir, paste0("Univ-Utah.jpeg.PNG")))
+knitr::include_graphics("U_Health_stacked_png_red.PNG")
+```
+
+\vspace{0.6cm}
+
+\Large
+
+\doublespacing
+{\bf Econometrics I}
+
+\vspace{0.2 cm}
+
+\singlespacing
+{\bf Problem Set One }\\
+{\bf (Due `r format(Sys.time(), '%A, %B %d, %Y')`  by 10:45pm)}
+
+\vspace{0.5 cm}
+
+\normalsize
+
+\vspace{0.3 cm}
+
+\Large
+
+{\bf ERIC ANTO}
+
+
+
+\normalsize
+
+
+\end{centering}
+\newpage
+<!-- \tableofcontents  -->
+<!-- \newpage -->
+
+\pagenumbering{arabic}
+
+
+## \textcolor{red}{Each question is worth 5 points. This problem set is worth of a total of 45 points.}
+
+
+\setcounter{equation}{0}
+\begin{enumerate}
+
+\item Given the exhaustive and mutually exclusive set of propositions $\{A,B\}$, list all the propositions you can generate using $\vee$ and $\wedge$ and calculate their probabilities on the assumption that $P[A]=1/3$. \\
+{
+\color{blue}
+By the fact A and B are mutually exclusive, $P[A \wedge B] = 0$\\
+By mutually exhaustive of A and B, $P[A \vee B] = 1$\\ 
+$\Rightarrow P[A \vee B] = P[A] + P[B] - P[A \wedge B] = 1$\\
+$\Rightarrow P[A] +P[B])= 1$\\
+$\Rightarrow P[B] = 1- P[A]= 1-\frac{1}{3}=\frac{2}{3}$\\
+These other propositions can be obtained.\\
+- $P[A\mid B]=\frac{P[A \wedge B]}{P[B]}=0$\\
+- $P[A\vee \bar{B}]=P[A\wedge \bar{B}]=P[A]=1/3$\\
+- $P[\bar{A} \vee B]=P[\bar A\wedge B]=P[B]=2/3$\\
+- $P[(A \vee B)']=P[\bar A\wedge \bar B]=0$\\
+- $P[(A \wedge B)']=P[\bar A\vee \bar B]=1$.
+}
+
+
+\item The propositions $\mathcal{E} = \{E_1,E_2,E_3\}$ are exhaustive and mutually exclusive. If the propositions $A=E_1\vee E_2$, and $B=E_2\vee E_3$, calculate the probabilities $P[A], P[B], P[A\wedge B], P[A\vee B], P[A\mid B]$, and $P[B\mid A]$ on the assumption that $P[E_1]=1/6$ and $P[E_3]=1/3$. 
+{
+\color{blue}
+
+By the fact that $\mathcal{E}$ is mutually exclusive,\\
+$\Rightarrow P[ E_1 \vee E_2 \vee E_3] = P[E_1] + P[E_2] + P[E_3]$
+
+By mutually exhaustive,\\
+$P[ E_1 \wedge E_2 \wedge E_3] = 1$\\
+$\Rightarrow P[ E_2] = 1-(1/6+1/3) = 1/2.$\\
+$P[A] = P[E_1 \vee E_2] = P[E_1] + P[E_2] = 1/6 +1/2 = 2/3$\\
+$P[B] = P[E_2 \vee E_3] = P[E_2] + P[E_3] = 1/2+1/3 = 5/6$\\
+Now,
+$$\begin{aligned}
+P[A \wedge B] &= P[(E_1 \vee E_2) \wedge (E_2\vee E_3)]\\
+&= P[(E_1 \vee E_2) \wedge E_2) \vee (E_1 \vee E_2) \wedge E_3)\\
+&= P[(E_1 \vee E_2) \wedge E_2)] + P[(E_1 \vee E_2) \wedge E_3)]\\
+&= P[E_1 \wedge E_2] + P[E_2 \wedge E_2] + P[E_1 \wedge E_3] + P[E_2 \wedge E_3]\\
+&= P[E_2]\\
+&= 1/2\\
+\\
+P[A\vee B] &= P[(E_1 \vee E_2) \vee (E_2\vee E_3)]\\
+&= P[E_1 \vee E_2] + P[E_2 \vee E_3]\\
+&= 1/6 + 5/6\\
+&= 1\\
+\\
+P[A\mid B] &= \frac{P[A \wedge B]}{P[B]}\\
+&= \frac{P[(E_1 \vee E_2) \wedge (E_2\vee E_3)]}{P[E_2\vee E_3]}\\
+&= \frac{1/2}{5/6}\\
+&= 3/5\\
+\\
+P[B\mid A] &= \frac{P[A \wedge B]}{P[A]}\\
+&= \frac{P[(E_1 \vee E_2) \wedge (E_2\vee E_3)]}{P[E_1\vee E_2]}\\
+&= \frac{1/2}{2/3}\\
+&= 3/4
+\end{aligned}$$
+}
+
+\item In the Monty Hall TV game show a contestant faces three closed doors, $A$, $B$, and $C$ and is told that behind one of the doors is a valuable prize, such as an expensive automobile, and behind the other two are subway tokens of negligible value. The contestant can choose one of the doors with the promise of receiving whatever lies behind it. Because the contestant has no information on which to base her choice, she might reasonably assign equal probabilities of $1/3$ to the three possible locations of the valuable prize. Say the contestant chooses door $A$ ``at random" in the absence of any further information and Monty intervenes and dramatically opens door $C$ to reveal a subway token. Then Monty offers the contestant the opportunity to change her chosen door. The contestant knows from watching the show many times that Monty never opens the door with the prize behind it at this stage and never opens the door the contestant originally chose. Work out whether the information represented by the opening of door $C$ has any effect on the contestant’s choice. That is, use Bayes' theorem to demonstrate a consistent reassignment of probabilities as the result of the receipt of new information. Keeping the notation $A$, $B$ for the hypotheses that the car is behind the corresponding door, denote $C^*$ as the observed fact that Monty opened door $C$. Hint: start by writing out the priors $P[A]$, $P[B]$, and $P[C]$ as well as the conditional probabilities describing the likelihoods and the posterior probabilities of the hypotheses (e.g. $P[C^*|A]$ is the likelihood that Monty opens door $C$ conditional on the car being behind door $A$).\\
+{
+\color{blue}
+Let event $A$ be that the car is behind door A.\\
+Let event $B$ be that the car is behind door B.\\
+Let event $C^*$ be that Monty opens up door C to show the subway tokens.\\
+
+Since prizes are randomly arranged behind doors the probability of any door being correct before a contestant picks a door is 1/3.\\
+Thus, the Priors are $P[A]=P[B]=P[C]=1/3$\\
+
+Essentially, we have only two posterior calculations that are required since C is already chosen by Monty:
+That is, the probability the prize is actually behind door A given that Monty opened door C and 
+the probability the prize is actually behind door B given that Monty opened door C.\\
+$ P[\text{contestant opens door A} \mid \text{Monty opens door C}]=P[A|C^*]$,\\
+$P[\text{contestant opens door A} \mid \text{Monty opens door C}]=P[B|C^*]$.\\
+{
+\color{red}
+$P[\text{contestant opens door C} \mid \text{Monty opens door C}]=P[C|C^*]$ is zero.\\
+}
+
+
+With the conditional likelihoods, we have $P[C^*|A]$, and $P[C^*|B]$.\\
+Suppose the car is actually behind door A, then Monty can open door B or C and the probability of opening either is 50%.
+If the car is actually behind door A or B then monty can only open door C as given in this setting. In particular, Monty cannot open A, the supposed door a contestant chooses. Monty cannot also open door the door A or B because it has the car behind it.\\
+Hence we have that the likelihood that Monty opened door C if door A or B is correct:\\
+$ P[\text{Monty opens door C} \mid \text{contestant opens door A}] = P[C^*|A]=1/2$,\\
+$P[\text{Monty opens door C} \mid \text{contestant opens door B}] = P[C^*|B]=1$.\\
+
+Thus, the total probability is calculated as 
+$$\begin{aligned}
+P[C^*]&=P[C^*|A]P[A]+P[C^*|B]P[B]\\
+&=1/2\times 1/3 + 1\times 1/3\\
+&=1/2
+\end{aligned}$$
+
+
+The actual Posterior calculations are
+$$\begin{aligned}
+P[\text{Contestant opens door A} \mid \text{Monty opens door C}]&=P[A\mid C^*]\\
+&=\frac{P[C^*|A]P[A]}{P[C^*]}\\
+&=\frac{1/2\times 1/3 }{1/2}\\
+&=1/3
+\end{aligned}$$
+
+$$\begin{aligned}
+P[\text{contestant opens door B} \mid \text{Monty opens door C}]&=P[B\mid C^*]\\
+&=\frac{P[C^*|B]P[B]}{P[C^*]}\\
+&=\frac{1\times 1/3 }{1/2}\\
+&=2/3
+\end{aligned}$$
+
+This implies that as Monty has opened door C, the car is either behind door A  or door B. The probability of the car being behind door A is $1/3.$ This means that the probability of the car being behind door B is $1 – (1/3) = 2/3.$ 
+That is, the information represented by the opening of door $C$ has any effect on the contestant’s choice especially when they switch choices.
+}
+\item Let $x$ and $y$ be jointly distributed as:
+
+\begin{align}
+P[x,y]=  \left\{ \begin{array}{l l} 
+		12xy(1-y)\ \text{ if } \ 0<x<1 \text{ and } 0<y<1
+		&\\
+		0 \ \text{ otherwise }
+	\end{array} \right.
+\end{align}
+
+\begin{enumerate}
+\item What are the marginal distributions $P[x]$ and $P[y]$? 
+{
+\color{blue}
+By checking $P[x,y]$, it is clear that it is a legitimate joint probability density.\\
+In particular, it is easy to verify that $\forall x, y \in (0,1); \;\;\; P[x,y] \ge 0$\\ and
+$$\begin{aligned}
+&\int_{0}^{1} \int_{0}^{1} \Big(12xy(1-y)\Big)dxdy = 1\\
+\end{aligned}$$
+$$\begin{aligned}
+P[x] &= \int_{0}^{1}12xy(1-y)dy\\
+&= 12x\{\int_{0}^{1}(y-y^2)dy\}\\
+&= 12x\Big[\frac{y^2}{2}-\frac{y^3}{3}\Big]_{0}^{1}\\
+&= 12x\Big(\frac{1}{2}-\frac{1}{3}\Big)\\
+&= 2x\mathbb{1}_{(0 < x<1)}
+\end{aligned}$$
+
+$$\begin{aligned}
+P[y] &= \int_{0}^{1}12xy(1-y)dx\\
+&= 12y(1-y)\int_{0}^{1}xdx\\
+&= 12y(1-y)\Big[\frac{x^2}{2}\Big]_0^1\\
+&= 12y(1-y)\Big(\frac{1}{2}\Big)\\
+&= 6y(1-y)\mathbb{1}_{(0 <y<1)}
+\end{aligned}$$
+}
+
+\item Are $x$ and $y$ independent? Explain. (Remember the definition of independence is that $P[x,y]=P[x]P[y]$ for \textit{all} values of $x$ and $y$).\\
+{
+\color{blue}
+Clearly, 
+$$\begin{aligned}
+P[x,y] &= P[x]P[y]\\
+&= (2x)(6y(1-y))\\
+&= 12xy(1-y),\;\; \text{thus, X and Y are independent.}
+\end{aligned}$$
+}
+\end{enumerate}
+	
+\item Let $x$ and $y$ be jointly distributed as:
+
+\begin{align}
+P[x,y]=  \left\{ \begin{array}{l l} 
+		\frac{1}{2}x+y \ \text{ if } \ 0\leq x \leq 1 \text{ and } 0\leq y \leq 1
+		&\\
+		0 \ \text{ otherwise }
+	\end{array} \right.
+\end{align}
+
+\begin{enumerate}
+\item What are the marginal distributions $P[x]$ and $P[y]$?
+{
+\color{blue}
+First checking for legitimacy of $P[x, y]$
+Clearly, $\forall x, y \in (0,1); \;\;\; P[x,y] \ge 0$\\
+Let $c \in \mathcal{R}^{+}$\\
+Then,
+$$\begin{aligned}
+&\int_{0}^{1} \int_{0}^{1} \Big(\frac{1}{2}x+y\Big)dxdy = c\\
+&\int_{0}^{1}\frac{1}{4}\Big[x^2\Big]_0^1+y\Big[x\Big]_0^1dy = c\\
+&\int_{0}^{1}\Big(\frac{1}{4} + y\Big)dy = c\\
+&\Big[\Big(\frac{1}{4}y + \frac{y^2}{2}\Big)\Big]_{0}^{1} = c\\
+&\Rightarrow c = \frac{3}{4}\\
+\Rightarrow &\frac{4}{3}\int_{0}^{1} \int_{0}^{1}\Big(\frac{1}{2}x+y\Big)dxdy = 1\\
+\end{aligned}$$
+$\text{Hence, the legitimate joint density of X and Y}, P[x, y] =\frac{4}{3}(\frac{1}{2}x+y)\mathbb{1}_{(0 <x, y<1)}$\\
+
+$$\begin{aligned}
+P[x] &= \frac{4}{3}\int_{0}^{1}(\frac{1}{2}x+y)dy\\
+&= \frac{4}{3}\Big(\frac{1}{2}x\Big[y\Big]_0^1+\Big[\frac{y^2}{2}\Big]_0^1)\Big)\\
+&= \frac{2}{3}(x+1)\mathbb{1}_{(0 < x<1)}\\
+\end{aligned}$$
+
+$$\begin{aligned}
+P[y] &= \int_{0}^{1}(\frac{1}{2}x+y)dx\\
+&= \frac{4}{3}\Big(\frac{1}{4}\Big[x^2\Big]_0^1+y\Big[x\Big]_0^1\Big)\\
+&= \frac{4}{3}\Big(\frac{1}{4} + y\Big)\mathbb{1}_{(0 < y<1)}
+\end{aligned}$$
+}
+\item Are $x$ and $y$ independent? Explain. \\
+{
+\color{blue}
+Clearly,
+$P[x,y] = \frac{1}{2}x+y \ne (\frac{1}{2}x+\frac{1}{2})(\frac{1}{4} + y) = P[x]P[y]$\\
+Thus, X and Y are not independent.
+}
+\end{enumerate}
+
+\item Let $x$ and $y$ be jointly distributed as:
+
+\begin{align}
+P[x,y]=  \left\{ \begin{array}{l l} 
+		4 \ \text{ if } \ 0 < x < y < 1
+		&\\
+		0 \ \text{ otherwise }
+	\end{array} \right.
+\end{align}
+
+\begin{enumerate}
+\item What are the marginal distributions $P[x]$ and $P[y]$?\\
+{
+\color{blue}
+Given the joint region of X and Y, if we consider the region as many vertical strips, then $x \in (0, 1)$, and for a fixed $x$, the strip in that region consists of all $y \in (x, 1)$.\\
+
+On the contrary, if we consider the region as many horizontal strips, then $y \in (0, 1)$, and for a fixed $y$, the strip in that region consists of all $x \in (0, y)$.\\
+First we consider the legitimacy of $P[x,y]$\\
+Clearly, $\forall x, y \in (0,1); \;\;\; P[x,y] \ge 0$\\
+Let $c \in \mathcal{R}^{+}$\\
+Then,
+$$\begin{aligned}
+&\int_{0}^{1} \int_{0}^{y} 4dxdy = c\\
+&\int_{0}^{1}[4x]_{0}^{y}dy = c\\
+&\int_{0}^{1}4ydy = c\\
+&2[y^2]_{0}^{1} = c\\
+&\frac{1}{2}\int_{0}^{1} \int_{0}^{y} 4dxdy = 1\\
+\end{aligned}$$
+$\text{Hence, the legitimate joint density of X and Y}, P[x, y] = 2\mathbb{1}_{(0 <x< y<1)}$\\
+Now, we have;
+$$\begin{aligned}
+P[x] &= \int_{x}^{1}2dy\\
+&= [2y]_{x}^{1}\\
+&= 2-2x \mathbb{1}_{(0 < x<1)}\\
+\\
+P[y] &= \int_{0}^{y}2dx\\
+&= \Big[2x\Big]_{0}^{y}\\
+&= 2y\mathbb{1}_{(0 < y<1)}
+\end{aligned}$$
+}
+\item What are the conditional distributions $P[x|y]$ and $P[y|x]$?
+{
+\color{blue}
+$$\begin{aligned}
+P[x|y] &= \frac{P[x,y]}{P[y]}\\
+&= \frac{2}{2y}\\
+&=\frac{1}{y}\mathbb{1}_{(0 < x <y < 1)}\\
+\\
+P[y|x] &= \frac{P[x,y]}{P[x]}\\
+&= \frac{2}{2-2x}\\
+&= \frac{1}{1-x}\mathbb{1}_{(0 < x <y<1)}
+\end{aligned}$$
+}
+\end{enumerate}
+\end{enumerate}
