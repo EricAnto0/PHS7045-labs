@@ -1,8 +1,6 @@
 R Essentials: loops, functions, and \*apply functions
 ================
 
-<!-- \tableofcontents  -->
-<!-- \newpage -->
 # Background
 
 Response-adaptive randomization (RAR) has been used in precision
