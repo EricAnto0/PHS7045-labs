@@ -157,7 +157,7 @@ rownames(tab) <- c("F25", "RMatch")
 
            Pr(pick arm 3) = Pr(pick best arm) (%) Pr(pick arm 2 or better) (%)
     F25                                      12.5                         25.0
-    RMatch                                   82.7                         98.7
+    RMatch                                   84.8                         99.1
            Pr(pick arm 1 or better) (%)
     F25                            37.5
     RMatch                        100.0
