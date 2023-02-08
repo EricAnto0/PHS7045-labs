@@ -76,3 +76,88 @@ using the \*apply functions.
     assignment. We realize it is in a space that may be new to you, and
     it is not the intent for this assignment to take more than 7-10
     hours over the course of 2 weeks.
+
+``` r
+#### message: false
+getprobs <- function(norm_v, vdat, K = K, alpha_t, beta_t, realloc = TRUE){
+  vdat <- as.data.frame(vdat)
+  fprobs <- sapply(1:length(norm_v), function(m){
+    rbeta(K, (alpha_t + sum(subset(vdat, trt_arm == m, select = y))), 
+          (beta_t + nrow(subset(vdat, trt_arm == m))-sum(subset(vdat, trt_arm == m, select = y))))})
+  n_t <- as.vector(table(vdat[, "trt_arm"])[2:4])
+  n_0 <- as.vector(table(vdat[, "trt_arm"])[1])
+  V_t <- apply(fprobs, 1, function(x){which.max(x)})
+  pt_max <- c(mean(V_t==1),
+              mean(V_t==2),
+              mean(V_t==3),
+              mean(V_t==4)
+  )
+  if(realloc == TRUE){
+    V_0 <- min(sum(pt_max[-1]*((n_t+1)/(n_0+1))), max(pt_max[-1]))
+    norm_v <- sapply(c(V_0, pt_max[-1]), function(r){r/sum(c(V_0, pt_max[-1]))})
+    return(norm_v)
+  }else{
+    return(list(fprobs, (which.max(pt_max)-1)))
+  }
+}
+
+
+sample_allocation <- function(norm_v, n0, N, alloc.type = c("F25", "RMATCH"), probs = probs, dat){
+  trt <- switch(alloc.type,
+                "F25" = rep(c(1:length(norm_v)), N/length(norm_v)),
+                "RMATCH" = sample(1:4, size = n0, replace = TRUE, prob = norm_v))
+  ff <- (lapply(unique(trt), function(x)cbind(x, sum(x==trt))))
+  df <- do.call(rbind, lapply(ff, function(m){cbind(trt_arm = m[1], 
+                                                    y= sample(dat[, m[1]], m[2]))}))
+}
+
+mymodel <- function(threshold, N = N, K = 1000, design = 1, interim_n = c(40, 80, 120, 160, 200),
+                    alpha_t = .35, beta_t = .65, probs = c(0.35, 0.45, 0.55, 0.65)){
+  #set.seed(seed)
+  mydatt <- NULL
+  norm_v <- c(0.25, 0.25, .25, .25)
+  names(norm_v) <- c("1", "2", "3", "4")
+  dat <- do.call(cbind, lapply(1:length(norm_v), function(h){rbinom(1000, 1, probs[h])}))
+  # dat <- data.frame(id = 1:10000, y = rbinom(10000, 1, .35))
+  if(design == 1){
+    #df <- lapply(split(sample(nrow(dat), N), c(0, 1, 2, 3)), function(i){dat[i, ]})
+    mydatt <- sample_allocation(norm_v = norm_v, n0 = N, N = N, alloc.type = "F25", probs = probs, dat)
+  }else{
+    #trt <- apply(t(rmultinom(40, size = 1, prob = as.vector(norm_v))), 1, function(x) which(x==1)-1)
+    for(i in 1:(length(interim_n)+1)){
+      norm_v <- c(0.25, 0.25, .25, .25)
+      names(norm_v) <- c("1", "2", "3", "4")
+      n0 <- ifelse(i<=(length(interim_n)), 40, N-(interim_n[i-1]))
+      mydat <- sample_allocation(norm_v = norm_v, n0 = n0, N = N, alloc.type = "RMATCH", probs = probs, dat)
+      mydatt <- rbind(mydatt, mydat) 
+      norm_v <- getprobs(norm_v = norm_v, vdat = mydatt, K = K, alpha_t = alpha_t, beta_t = beta_t, realloc = TRUE)
+    }
+    
+    
+    mprobs <- getprobs(norm_v = norm_v, vdat = mydatt, K = K, alpha_t = alpha_t, beta_t = beta_t, realloc = FALSE)
+    return(mprobs[[2]])
+  }
+  
+}
+getres1 <- replicate(1000, {mymodel(threshold = .9912, N = 228, K = 1000, design = 1,
+alpha_t =.35, beta_t = .65, probs = c(0.35, 0.45, 0.55, 0.65))})
+
+getres2 <- replicate(1000, {mymodel(threshold = .9912, N = 228, K = 1000, design = 2, alpha_t =.35, beta_t = .65, probs = c(0.35, 0.45, 0.55, 0.65))})
+ 
+
+getr1 <- cumsum(rev(prop.table(table(getres1))))*100 
+getr12 <- cumsum(rev(prop.table(table(getres2))))*100
+tab <- rbind(getr1[1:3], getr12[1:3])
+colnames(tab)  <- c("Pr(pick arm 3) = Pr(pick best arm) (%)",
+"Pr(pick arm 2 or better) (%)", "Pr(pick arm 1 or better) (%)")
+rownames(tab) <- c("F25", "RMatch")
+```
+
+## Performance of each design on arm selection in the mixed scenario.
+
+           Pr(pick arm 3) = Pr(pick best arm) (%) Pr(pick arm 2 or better) (%)
+    F25                                      12.5                         25.0
+    RMatch                                   84.2                         98.5
+           Pr(pick arm 1 or better) (%)
+    F25                            37.5
+    RMatch                         99.9
