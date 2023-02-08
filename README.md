@@ -104,6 +104,46 @@ where they belong and the address of the object in memory using
 
 ``` r
 library(data.table)
+library(R.utils)
+```
+
+    Loading required package: R.oo
+
+    Loading required package: R.methodsS3
+
+    R.methodsS3 v1.8.2 (2022-06-13 22:00:14 UTC) successfully loaded. See ?R.methodsS3 for help.
+
+    R.oo v1.25.0 (2022-06-12 02:20:02 UTC) successfully loaded. See ?R.oo for help.
+
+
+    Attaching package: 'R.oo'
+
+    The following object is masked from 'package:R.methodsS3':
+
+        throw
+
+    The following objects are masked from 'package:methods':
+
+        getClasses, getMethods
+
+    The following objects are masked from 'package:base':
+
+        attach, detach, load, save
+
+    R.utils v2.12.2 (2022-11-11 22:00:03 UTC) successfully loaded. See ?R.utils for help.
+
+
+    Attaching package: 'R.utils'
+
+    The following object is masked from 'package:utils':
+
+        timestamp
+
+    The following objects are masked from 'package:base':
+
+        cat, commandArgs, getOption, isOpen, nullfile, parse, warnings
+
+``` r
 #plot_x <- function(x, y, ...){
 #plot(x = x, y = y, main = "Experiment", col = "red")
 #}
@@ -123,8 +163,8 @@ my_e(123, pi)
      num 3.14
     Null data.table (0 rows and 0 cols)
     Null data.table (0 rows and 0 cols)
-    [1] "0000026568699370"
-    [1] "0000026565b867d8"
+    [1] "00000223832ed900"
+    [1] "0000022383f6a238"
 
 Knit the document, commit your changes, and push them to GitHub.
 
@@ -154,17 +194,14 @@ of the output must be passed as a symbol using lazy evaluation.
 
 ``` r
 lreg <- function(x, y, ...){
- innerf <- list(...)
-  function(x, y) assign(innerf, lm(y ~ x), envir = .GlobalEnv)
+ #innerf <- list(...)
+  assign("lfit", lm(y ~ x), envir = .GlobalEnv)
  #ls(environment(innerf))
 }
 x <- rnorm(100)
 y <- rbinom(100, 1, 0.5)
 lreg(x, y)  
 ```
-
-    function(x, y) assign(innerf, lm(y ~ x), envir = .GlobalEnv)
-    <environment: 0x0000026568dd02d0>
 
 Knit the document, commit your changes, and push them to GitHub.
 
@@ -201,7 +238,7 @@ stations <- stations[!is.na(USAF)]
 stations[, n := 1:.N, by = .(USAF)]
 stations <- stations[n == 1,][, n := NULL]
 
-dat <- merge(
+datta <- merge(
   # Data
   x     = metdata,      
   y     = stations, 
@@ -212,7 +249,7 @@ dat <- merge(
   all.x = TRUE,      
   all.y = FALSE
   )
-dim(dat)
+dim(datta)
 ```
 
 3.  Merge the data as we did during the lecture.
@@ -223,6 +260,13 @@ What is the median station in terms of temperature, wind speed, and
 atmospheric pressure? Look for the three weather stations that best
 represent the continental US using the `quantile()` function. Do these
 three coincide?
+
+``` r
+# datta[, .(median_temp = quantile(temp, 0.5, na.rm = TRUE),
+#         median_wind.sp = quantile(wind.sp, 0.5, na.rm = TRUE),
+#         median_atm.press = quantile(atm.press, 0.5, na.rm = TRUE)),
+#     keyby = .(STATE)][order(STATE)]
+```
 
 Knit the document, commit your changes, and Save it on GitHub. Don’t
 forget to add `README.md` to the tree, the first time you render it.

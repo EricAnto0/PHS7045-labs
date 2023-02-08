@@ -89,6 +89,7 @@ Write a function using the ellipsis argument (`...`) with the goal of (i) retrie
 
 ```{r}
 library(data.table)
+library(R.utils)
 #plot_x <- function(x, y, ...){
 #plot(x = x, y = y, main = "Experiment", col = "red")
 #}
@@ -112,7 +113,10 @@ Knit the document, commit your changes, and push them to GitHub.
 A concept we did not review was lazy evaluation. Write a function with two arguments (`a` and `b`)  that only uses one of them as an integer, and then call the function passing the following arguments `(1, this_stuff)`
 
 ```{r}
-
+lazy_eval <- function(x, y){
+  print(x)
+}
+lazy_eval(1, this_stuff)
 ```
 
 Knit the document, commit your changes, and push them to GitHub.
@@ -123,7 +127,14 @@ Knit the document, commit your changes, and push them to GitHub.
 Write a function that fits a linear regression model and saves the result to the global environment using the `assign()` function. The name of the output must be passed as a symbol using lazy evaluation.
 
 ```{r}
-
+lreg <- function(x, y, ...){
+ #innerf <- list(...)
+  assign("lfit", lm(y ~ x), envir = .GlobalEnv)
+ #ls(environment(innerf))
+}
+x <- rnorm(100)
+y <- rbinom(100, 1, 0.5)
+lreg(x, y)  
 ```
 
 Knit the document, commit your changes, and push them to GitHub.
@@ -143,6 +154,7 @@ Knit the document, commit your changes, and push them to GitHub.
 
 # Download the data
 stations <- fread("ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.csv")
+metdata <- fread("https://raw.githubusercontent.com/USCbiostats/data-science-data/master/02_met/met_all.gz")
 stations[, USAF := as.integer(USAF)]
 
 # Dealing with NAs and 999999
@@ -159,6 +171,19 @@ stations <- stations[!is.na(USAF)]
 # Removing duplicates
 stations[, n := 1:.N, by = .(USAF)]
 stations <- stations[n == 1,][, n := NULL]
+
+datta <- merge(
+  # Data
+  x     = metdata,      
+  y     = stations, 
+  # List of variables to match
+  by.x  = "USAFID",
+  by.y  = "USAF", 
+  # Which obs to keep?
+  all.x = TRUE,      
+  all.y = FALSE
+  )
+dim(datta)
 ```
 
 3. Merge the data as we did during the lecture.
@@ -168,7 +193,10 @@ stations <- stations[n == 1,][, n := NULL]
 What is the median station in terms of temperature, wind speed, and atmospheric pressure? Look for the three weather stations that best represent the continental US using the `quantile()` function. Do these three coincide?
 
 ```{r}
-
+# datta[, .(median_temp = quantile(temp, 0.5, na.rm = TRUE),
+#         median_wind.sp = quantile(wind.sp, 0.5, na.rm = TRUE),
+#         median_atm.press = quantile(atm.press, 0.5, na.rm = TRUE)),
+#     keyby = .(STATE)][order(STATE)]
 ```
 
 
