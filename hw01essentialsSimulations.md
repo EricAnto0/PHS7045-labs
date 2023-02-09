@@ -139,8 +139,7 @@ mymodel <- function(threshold, N = N, K = 1000, design = 1, interim_n = c(40, 80
   }
   
 }
-getres1 <- replicate(1000, {mymodel(threshold = .9912, N = 228, K = 1000, design = 1,
-alpha_t =.35, beta_t = .65, probs = c(0.35, 0.45, 0.55, 0.65))})
+getres1 <- replicate(10000, {mymodel(threshold = .9912, N = 228, K = 1000, design = 1, alpha_t =.35, beta_t = .65, probs = c(0.35, 0.45, 0.55, 0.65))})
 
 getres2 <- replicate(1000, {mymodel(threshold = .9912, N = 228, K = 1000, design = 2, alpha_t =.35, beta_t = .65, probs = c(0.35, 0.45, 0.55, 0.65))})
  
@@ -157,7 +156,7 @@ rownames(tab) <- c("F25", "RMatch")
 
            Pr(pick arm 3) = Pr(pick best arm) (%) Pr(pick arm 2 or better) (%)
     F25                                      12.5                         25.0
-    RMatch                                   84.8                         99.1
+    RMatch                                   83.7                         98.5
            Pr(pick arm 1 or better) (%)
     F25                            37.5
     RMatch                        100.0
